@@ -1,0 +1,93 @@
+server:
+  port: ${serverPort:8081}
+spring:
+  application:
+    name: gateway
+  r2dbc:
+    url: r2dbc:postgresql://localhost/life_db
+    username: user
+    password: password
+  jpa:
+    show-sql: true
+  liquibase:
+    enabled: true
+    url: jdbc:postgresql://localhost/life_db
+    user: user
+    password: password
+    change-log: db/changelog/master-changelog.xml
+  cloud:
+    gateway:
+      discovery:
+        locator:
+#          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: quest_service
+          uri: lb://QUEST
+          predicates:
+            - Path=/quest/**
+          filters:
+            - RewritePath=/quest/?(?<remaining>.*), /$\{remaining}
+        - id: openapi
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api-docs/**
+          filters:
+            - RewritePath=/api-docs/(?<path>.*), /$\{path}/api-docs
+#        - id: gateway_service
+#          uri: lb://GATEWAY
+#          predicates:
+#            - Path=/gateway/**
+#          filters:
+#            - RewritePath=/gateway/?(?<remaining>.*), /${remaining}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8080/eureka
+
+management:
+  endpoint:
+    gateway:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: gateway
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger.html
+    operations-sorter: method
+#    urls:
+#      - name: quest-apis
+#        url: /quest/swagger.html
+#      - name: gateway-apis
+#        url: /swagger.html
+#  group-configs:
+#    - group: gateway
+#      paths-to-match: [/users/**, /login, /signup]
+#    - group: quest
+#      paths-to-match: /quest/**
+
+kafka:
+  server: localhost:9092
+  group:
+    id: server.broadcast
+  consumer:
+    id: consumerServer
+
+spring-webflux-jjwt:
+  password:
+    encoder:
+      secret: ${ENCODER_SECRET}
+      iteration: ${ENCODER_ITERATION}
+      key-length: ${ENCODER_KEY_LENGTH}
+      algorithm: ${ENCODER_ALGORITHM}
+  jjwt:
+    secret: ${JJWT_SECRET}
+    expiration: ${JJWT_EXPIRATION}
+  role: role
+  auth-prefix: Bearer

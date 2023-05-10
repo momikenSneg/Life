@@ -1,0 +1,23 @@
+[
+  {
+    "predicate": "Paths: [/gateway/**], match trailing slash: true",
+    "metadata": {
+      "management.port": "8081"
+    },
+    "route_id": "ReactiveCompositeDiscoveryClient_GATEWAY",
+    "filters": [
+      "[[RewritePath /gateway/?(?<remaining>.*) = '/${remaining}'], order = 1]"
+    ],
+    "uri": "lb://GATEWAY",
+    "order": 0
+  },
+  {
+    "predicate": "Paths: [/quest/**], match trailing slash: true",
+    "route_id": "ReactiveCompositeDiscoveryClient_QUEST",
+    "filters": [
+      "[[RewritePath /quest/?(?<remaining>.*) = '/${remaining}'], order = 1]"
+    ],
+    "uri": "lb://QUEST",
+    "order": 0
+  }
+]

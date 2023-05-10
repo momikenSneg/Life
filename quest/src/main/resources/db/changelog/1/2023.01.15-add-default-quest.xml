@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="fill_default_daily_quest_table" author="e.snegireva">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="default_daily_quest"/>
+            <sqlCheck expectedResult="0">
+                select count(*) from default_daily_quest;
+            </sqlCheck>
+        </preConditions>
+
+        <sqlFile path="db/changelog/1/sql/fill-default-daily-quests.sql"/>
+
+    </changeSet>
+
+
+    <changeSet id="fill_default_planned_quest_table" author="e.snegireva">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="default_planned_quest"/>
+            <sqlCheck expectedResult="0">
+                select count(*) from default_planned_quest;
+            </sqlCheck>
+        </preConditions>
+
+        <sqlFile path="db/changelog/1/sql/fill-default-planned-quests.sql"/>
+
+    </changeSet>
+
+</databaseChangeLog>

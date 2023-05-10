@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: gateway
+  r2dbc:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+spring-webflux-jjwt:
+  password:
+    encoder:
+      secret: ${ENCODER_SECRET:mysecret}
+      iteration: ${ENCODER_ITERATION:33}
+      key-length: ${ENCODER_KEY_LENGTH:256}
+      algorithm: ${ENCODER_ALGORITHM:PBKDF2WithHmacSHA512}
+  jjwt:
+    secret: ${JJWT_SECRET:ThisIsSecretForJWTHS512SignatureAlgorithmThatMUSTHave64ByteLength}
+    expiration: ${JJWT_EXPIRATION:8800}
+  role: role
+  auth-prefix: Bearer
+
+kafka:
+  server: localhost:9092
+  group:
+    id: server.broadcast
+  consumer:
+    id: consumerServer

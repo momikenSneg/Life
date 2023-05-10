@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="add-extensions" author="e.snegireva">
+        <sql>CREATE EXTENSION IF NOT EXISTS "uuid-ossp";</sql>
+    </changeSet>
+
+    <changeSet id="create_default_daily_quest_table" author="e.snegireva">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="default_daily_quest"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="default_daily_quest">
+            <column name="id" type="UUID" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true"
+                             primaryKeyName="default_daily_quest_pkey"
+                             nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR"/>
+            <column name="money" type="INT"/>
+            <column name="description" type="VARCHAR"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_default_planned_quest_table" author="e.snegireva">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="default_planned_quest"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="default_planned_quest">
+            <column name="id" type="UUID" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true"
+                             primaryKeyName="default_planned_quest_pkey"
+                             nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR"/>
+            <column name="money" type="INT"/>
+            <column name="description" type="VARCHAR"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_user_daily_quest_table" author="e.snegireva">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user_daily_quest"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="user_daily_quest">
+            <column name="id" type="UUID" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true"
+                             primaryKeyName="user_daily_quest_pkey"
+                             nullable="false"/>
+            </column>
+            <column name="user_name" type="VARCHAR"/>
+            <column name="title" type="VARCHAR"/>
+            <column name="money" type="INT"/>
+            <column name="description" type="VARCHAR"/>
+            <column name="time_from" type="TIME"/>
+            <column name="time_to" type="TIME"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_user_planned_quest_table" author="e.snegireva">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user_planned_quest"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="user_planned_quest">
+            <column name="id" type="UUID" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true"
+                             primaryKeyName="user_planned_quest_pkey"
+                             nullable="false"/>
+            </column>
+            <column name="user_name" type="VARCHAR"/>
+            <column name="title" type="VARCHAR"/>
+            <column name="money" type="INT"/>
+            <column name="description" type="VARCHAR"/>
+            <column name="is_repetitive" type="BOOLEAN"/>
+            <column name="repetition" type="VARCHAR"/>
+            <column name="time_from" type="TIMESTAMP"/>
+            <column name="time_to" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="create_user_completed_quest_table" author="e.snegireva">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user_completed_quest"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="user_completed_quest">
+            <column name="id" type="UUID" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true"
+                             primaryKeyName="user_completed_quest_pkey"
+                             nullable="false"/>
+            </column>
+            <column name="old_id" type="UUID"/>
+            <column name="user_name" type="VARCHAR"/>
+            <column name="title" type="VARCHAR"/>
+            <column name="money" type="INT"/>
+            <column name="description" type="VARCHAR"/>
+            <column name="time_from" type="TIMESTAMP"/>
+            <column name="time_to" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+
+
+</databaseChangeLog>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="add_index_on_user_daily_quest_table" author="e.snegireva">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="user_daily_quest_index"/>
+            </not>
+        </preConditions>
+
+        <createIndex indexName="user_daily_quest_index" tableName="user_daily_quest">
+            <column name="user_name"/>
+            <column name="time_from"/>
+            <column name="time_to"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="add_index_on_user_planned_quest_table" author="e.snegireva">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="user_planned_quest_index"/>
+            </not>
+        </preConditions>
+
+        <createIndex indexName="user_planned_quest_index" tableName="user_planned_quest">
+            <column name="user_name"/>
+            <column name="time_from"/>
+            <column name="time_to"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="add_index_on_user_completed_quest_table" author="e.snegireva">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="user_completed_quest_index"/>
+            </not>
+        </preConditions>
+
+        <createIndex indexName="user_completed_quest_index" tableName="user_completed_quest">
+            <column name="user_name"/>
+            <column name="time_from"/>
+            <column name="time_to"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

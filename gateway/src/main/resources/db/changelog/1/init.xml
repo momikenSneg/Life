@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet id="add-extensions" author="e.snegireva">
+        <sql>CREATE EXTENSION IF NOT EXISTS "uuid-ossp";</sql>
+    </changeSet>
+    
+    <changeSet id="create_user_table" author="e.snegireva">
+
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="life_user"/>
+            </not>
+        </preConditions>
+
+<!--        <sql>CREATE TYPE pet_state as enum-->
+<!--            ('DEAD', 'FEINTING', 'DEAD_INSIDE', 'SAD', 'WORRY', 'NORMAL', 'FINE', 'GOOD', 'GREAT', 'EXCELLENT');</sql>-->
+
+<!--        <sql>CREATE TYPE pet_role as enum-->
+<!--            ('ROLE_ADMIN', 'ROLE_USER', 'ROLE_SUPER');</sql>-->
+
+        <createTable tableName="life_user">
+            <column name="id" type="UUID" defaultValueComputed="uuid_generate_v4()">
+                <constraints primaryKey="true"
+                             primaryKeyName="user_pkey"
+                             nullable="false"/>
+            </column>
+            <column name="login" type="VARCHAR"/>
+            <column name="password" type="VARCHAR"/>
+            <column name="health" type="DOUBLE"/>
+            <column name="money" type="INT"/>
+            <column name="state" type="VARCHAR"/>
+            <column name="role_name" type="VARCHAR"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
